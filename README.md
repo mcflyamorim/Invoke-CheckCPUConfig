@@ -1,8 +1,8 @@
-.SYNOPSIS
-     Check Power Plan and CPU clock speed
-.DESCRIPTION
-     This script can be used to validade CPU configuration and find issues at OS or BIOS settings. 
-.NOTES
+     .SYNOPSIS
+          Check Power Plan and CPU clock speed
+     .DESCRIPTION
+          This script can be used to validade CPU configuration and find issues at OS or BIOS settings. 
+     .NOTES
      Tags: Invoke-CheckCPUConfig
      Security Requirement: Requires RPC (Remote Procedure Call) access over port 445 to collect PerfMon counters, also requires WMI(namespaces CIMV2 and Root) 
                              remote access. If remote WMI is not available, script will try to run WMI query locally via PsExec (sysinternals).
@@ -126,15 +126,15 @@
              no other CPU limitations for virtualized servers.
 
      Author: Fabiano Amorim, amorim@pythian.com
-.LINK
-     https://github.com/mcflyamorim
-     https://www.pythian.com
-.EXAMPLE
-     Open a PowerShell console and run the following commands:
-     PS C:\>& "C:\temp\Invoke-CheckCPUConfig.ps1" -ComputerName 'razerfabiano', 'VMWin2012_1' -ShowDebugMessages -CaptureCPUzInfo -NumberOfExecutionsCpuZ 5
-.EXAMPLE
-     Open a PowerShell console and run the following commands:
-     PS C:\>& "C:\temp\Invoke-CheckCPUConfig.ps1" -UseMAP_SQLServicesOut -ShowDebugMessages -CaptureCPUzInfo -NumberOfExecutionsCpuZ 3
+     .LINK
+          https://github.com/mcflyamorim
+          https://www.pythian.com
+     .EXAMPLE
+          Open a PowerShell console and run the following commands:
+          PS C:\>& "C:\temp\Invoke-CheckCPUConfig.ps1" -ComputerName 'razerfabiano', 'VMWin2012_1' -ShowDebugMessages -CaptureCPUzInfo -NumberOfExecutionsCpuZ 5
+     .EXAMPLE
+          Open a PowerShell console and run the following commands:
+          PS C:\>& "C:\temp\Invoke-CheckCPUConfig.ps1" -UseMAP_SQLServicesOut -ShowDebugMessages -CaptureCPUzInfo -NumberOfExecutionsCpuZ 3
 
-     This will use "MAP_SQLServicesOut.csv" file to get list of computers to check
-     MAP_SQLServices.ps1 can be used to generate a "MAP_SQLServicesOut.csv" file.
+          This will use "MAP_SQLServicesOut.csv" file to get list of computers to check
+          MAP_SQLServices.ps1 can be used to generate a "MAP_SQLServicesOut.csv" file.
