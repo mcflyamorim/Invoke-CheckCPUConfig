@@ -1,4 +1,3 @@
-<#
    .SYNOPSIS
         Check Power Plan and CPU clock speed
    .DESCRIPTION
@@ -139,4 +138,3 @@
 
         This will use "MAP_SQLServicesOut.csv" file to get list of computers to check
         MAP_SQLServices.ps1 can be used to generate a "MAP_SQLServicesOut.csv" file.
-#>
