@@ -1,0 +1,136 @@
+
+. 'C:\Pythian\FabianoAmorim\Invoke-CheckCPUConfig\Invoke-CheckCPUConfig.ps1'
+Invoke-CheckCPUConfig -NumberOfExecutionsCpuZ 5 -ShowDebugMessages -CaptureCPUzInfo -UseMAP_SQLServicesOut
+
+. 'C:\Pythian\FabianoAmorim\Invoke-CheckCPUConfig\Invoke-CheckCPUConfig.ps1'
+Invoke-CheckCPUConfig -ComputerName 'O1D004CON5' -NumberOfExecutionsCpuZ 5 -ShowDebugMessages -CaptureCPUzInfo
+
+
+$MaxClockSpeed = (Get-CimInstance CIM_Processor).MaxClockSpeed; $ProcessorPerformance = (Get-Counter -Counter '\Processor Information(_Total)\% Processor Performance').CounterSamples.CookedValue; $CurrentClockSpeed = $MaxClockSpeed*($ProcessorPerformance/100); Write-Host "Max Processor Speed: $MaxClockSpeed"; Write-Host "Processor Perf Counter: $ProcessorPerformance"; Write-Host "Current Processor Speed: $CurrentClockSpeed"
+
+
+Get-Counter -Counter "\Processor Information(`_Total)\% Processor Performance"
+
+Get-ChildItem -Path 'C:\temp\' -Recurse | Unblock-File
+
+Get-DbaCmObject -ComputerName $ComputerName -ClassName Win32_OperatingSystem
+
+
+Working on NJ01WPBIDADB02 [7 out of 20]...
+Trying to read PerfMon counter \\NJ01WPBIDADB02\Processor(_Total)\% Processor Time
+All good with remote PerfMon access, % Processor Time = 13.5766571382687
+Trying to get OS details via Win32_OperatingSystem WMI class... Running Get-DbaCmObject...
+WARNING: [15:40:15][Get-DbaCmObject] [nj01wpbidadb02] Unable to find a connection to the target system. Ensure the na
+ is typed correctly, and the server allows any of the following protocols: CimRM, CimDCOM | Multiple protocol
+connections were attempted, but no successful connections could be established with the specified computer.
+Remote WMI access is not working :-( ...
+Trying to run WMIC command via PsExec(SysInternals), this may take some time to run. Be patient, it is not my fault.
+Nice, old but gold PsExec worked fine... Win32_OperatingSystem.Caption = Microsoft Windows Server 2012 R2 Standard; W
+2_OperatingSystem.Version = 6.3.9600
+WARNING: Error trying collect data for NJ01WPBIDADB02. Maybe a credential issue? Please confirm the computer is
+accessible and try again.
+WARNING: A counter with a negative denominator value was detected.
+Working on NJ01WPBIDADB01 [8 out of 20]...
+
+
+
+. c:\Pythian\FabianoAmorim\MAP_SQLServices\Get-SQLInstance.ps1
+Get-SQLInstance -ComputerName '' -CheckServiceAndConnectivity 'Y'
+
+(Get-WmiObject -class Win32_OperatingSystem).Caption
+
+$computername = 'razerfabiano'
+$version = (Get-DbaCmObject -ComputerName $ComputerName -ClassName Win32_OperatingSystem).Version
+$version
+
+WMIC COMPUTERSYSTEM Get Manufacturer, Model, NumberOfLogicalProcessors, SystemFamily, SystemSKUNumber /FORMAT:List
+
+WMIC COMPUTERSYSTEM Get Manufacturer, Model, NumberOfLogicalProcessors, SystemFamily, SystemSKUNumber, NumberOfProcessors /FORMAT:List
+
+
+Manufacturer, Model, NumberOfLogicalProcessors, NumberOfProcessors, SystemFamily, SystemSKUNumber
+
+WMIC /namespace:\\root\wmi path MS_SystemInformation Get SystemFamily, SystemSKUNumber /FORMAT:List
+
+Get-DbaCmObject -ComputerName 'VMWin2012_1' -ClassName Win32_ComputerSystem | Select-Object Manufacturer, Model, NumberOfLogicalProcessors, NumberOfProcessors, SystemFamily, SystemSKUNumber
+
+Get-DbaCmObject -Namespace 'root\wmi' -ComputerName 'VMWin2012_1' -ClassName MS_SystemInformation | Select-Object SystemFamily, SystemSKUNumber
+
+
+psexec /accepteula /nobanner  \\VMWin2012_1 cmd /k "ipconfig"
+
+Get-Counter -Counter "\\NJ01WPBIDADB02\Processor(_Total)\% Processor Time"
+Get-Counter -Counter "\\NJ01WPBIDADB02\Processor Information(_Total)\% Processor Performance"
+Get-Counter -Counter "\\NJ01WPBIDADB02\Processor Information(_Total)\% of Maximum Frequency"
+Get-Counter -Counter "\\NJ01WPBIDADB02\Processor Information(_Total)\% Performance Limit"
+
+
+
+$cred = Get-Credential WindowsUser
+Get-DbaService -ComputerName 'NJ01WPSWDB01' -Credential $cred 
+
+psexec -accepteula \\NJ01WPWAVEMDM01 powershell -NoLogo -ExecutionPolicy Bypass -Command "ipconfig /all"
+
+
+psexec -accepteula \\NJ01WPWAVEMDM01 powershell -NoLogo -ExecutionPolicy Bypass -Command "Get-CIMInstance -ComputerName -ClassName CIM_Processor"
+
+psexec -accepteula \\VMWin2012_1 powershell -NoLogo -ExecutionPolicy Bypass -Command "Get-CIMInstance -ComputerName -ClassName CIM_Processor"
+
+Get-WmiObject -Query "select BuildNumber, Caption, Version from Win32_OperatingSystem"
+
+Get-CIMInstance -ClassName Win32_OperatingSystem | Select-Object Caption, Version -Property Caption, BuildNumber, Version
+
+
+Invoke-Command -ComputerName 'NJ01WPWAVEMDM01' -ScriptBlock{powercfg -l}
+
+Invoke-Command -ComputerName 'NJ01WPWAVEMDM01' -ScriptBlock{powercfg -l}
+
+PsExec.exe \\VMWin2012_1 "powercfg -l"
+
+pexec NJ01WPWAVEMDM01
+
+PythianExec.exe /accepteula /nobanner \\VMWin2012_1 -c "powercfg -l"
+
+PythianExec.exe /accepteula /nobanner -n 120 \\VMWin2012_1 cmd /c "cpuz.exe" -html=c:\temp\cpuzreport
+
+PythianExec.exe /accepteula /nobanner -n 120 \\VMWin2012_1 /c "cpuz.exe" -html=c:\temp\cpuzreport
+
+PythianExec.exe /accepteula /nobanner -n 120 \\VMWin2012_1 -c "cpuz.exe" -html=c:\temp\cpuzreport4
+
+PythianExec.exe /accepteula /nobanner -n 5 \\VMWin2012_1 /c "cpuz.exe" -html=c:\temp\cpuzreport
+
+
+PythianExec.exe /accepteula /nobanner -n 120 \\VMWin2012_1 cmd /c "ipconfig"
+
+PythianExec.exe /accepteula /nobanner -n 120 \\VMWin2012_1 cmd /c "ipconfig"
+
+
+psexec \\NJ01WPWAVEMDM01 ipconfig /all
+
+
+$Timeout = 100
+$Computer = 'razerfabianoa'
+$Filter = 'Address="{0}" and Timeout={1}' -f $Computer, $Timeout
+$PingResponseTime = Get-WmiObject -Class Win32_PingStatus -Filter $Filter | Select-Object -ExpandProperty ResponseTime
+
+$cred = Get-Credential
+
+Get-WmiObject -Class Win32_OperatingSystem
+
+Get-DbaCmObject -ComputerName 'vmwin2012_ad' -ClassName Win32_OperatingSystem Credential $cred
+
+Get-DbaCmObject -ComputerName 'vmwin2012_ad' -ClassName Win32_ComputerSystem -Credential $cred | Select-Object Manufacturer, Model, NumberOfLogicalProcessors, NumberOfProcessors, SystemFamily, SystemSKUNumber
+
+Get-DbaCmObject -ComputerName 'vmwin2012_ad' -ClassName Win32_BIOS -Credential $cred | Select-Object BIOSVersion, ReleaseDate
+
+Get-DbaCmObject -ComputerName 'vmwin2012_ad' -ClassName win32_bios -Credential $cred 
+
+Get-DbaCmObject -ComputerName 'razerfabiano' -ClassName Win32_ComputerSystem -Credential $cred
+
+
+$Password = Read-Host -AsSecureString
+New-LocalUser "fabiano" -Password $Password -FullName "Fabiano"
+
+NET USER fabiano "fernanda" /ADD
+
+NET LOCALGROUP "administrators" "fabiano" /add
