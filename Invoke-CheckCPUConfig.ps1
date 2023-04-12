@@ -617,7 +617,7 @@ $All | Out-File "$PSScriptRoot\CheckCPUConfigResult.html" -Force
 foreach ($Computer in $ComputerName){
     $ComputerNum++
     $dt = Get-Date -Format 'yyyy-MM-dd hh:mm:ss'; 
-
+    $ComputerPerfmon = $Computer
     # if it is running it local... change it o localhost to avoid issues with PsExec
     if ($Computer -eq [System.Net.Dns]::GetHostName()) {
         $Computer = 'localhost'
@@ -896,7 +896,15 @@ foreach ($Computer in $ComputerName){
         if ($ShowDebugMessages){$dt = Get-Date -Format 'yyyy-MM-dd hh:mm:ss'; Write-Host "[$dt] Trying to capture PowerPlan setting via WMI accessing class win32_PowerPlan" -ForegroundColor Yellow}
         #$PowerPlan = Get-DbaPowerPlan -ComputerName $Computer | Select-Object -ExpandProperty PowerPlan
 
-        $PowerPlan = Get-WmiObject -ComputerName $Computer -NS 'root\cimv2\power' -Class 'win32_PowerPlan' -Filter "isActive=true" | Select-Object -ExpandProperty ElementName
+        $PowerPlan = $null
+        try
+        {
+            $PowerPlan = Get-WmiObject -ComputerName $Computer -NS 'root\cimv2\power' -Class 'win32_PowerPlan' -Filter "isActive=true" | Select-Object -ExpandProperty ElementName
+        }
+        catch
+        {
+            $PowerPlan = $null
+        }
 
         if (-not $PowerPlan){
             if ($ShowDebugMessages){$dt = Get-Date -Format 'yyyy-MM-dd hh:mm:ss'; Write-Host "[$dt] It was not possible to capture PowerPlan setting via Get-DbaPowerPlan... Calling PsExec for rescure..." -ForegroundColor Yellow}
